@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     IBM Corporation - initial API and implementation
+ * 	   John Arthorne - Hello from orionhub.org
  ******************************************************************************/
 package org.eclipsecon.e4rover.client;
 
