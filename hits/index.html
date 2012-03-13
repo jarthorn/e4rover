@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<!--
+  Google HTML5 slide template
+
+  Authors: Luke Mahé (code)
+           Marcin Wichary (code and design)
+           
+           Dominic Mazzoni (browser compatibility)
+           Charles Chen (ChromeVox support)
+           John Arthorne (Eclipse template)
+
+  URL: http://code.google.com/p/html5slides/
+-->
+
+<html>
+  <head>
+    <title>Eclipse SDK's Greatest Hits: The First Ten Years</title>
+
+    <meta charset='utf-8'>
+    <script
+      src='http://eclipse.org/eclipse/presentation/html/slides.js'></script>
+  <style>
+    /* Your individual styles here, or just use inline styles if that's
+       what you want. */
+    
+    
+  </style>
+  </head>
+  
+
+  <body style='display: none;'>
+
+    <section class='slides layout-regular template-eclipse'>
+      
+      <!-- Your slides (<article>s) go here. Delete or comment out the
+           slides below. -->
+        
+      
+      <article id='splash' class='biglogo'>
+      </article>
+
+      <article id='title'>
+        <h1>
+          Eclipse SDK's Greatest Hits:
+          <br>
+          The First Ten Years
+        </h1>
+        <p>
+          John Arthorne
+          <br>
+          March, 2012
+        </p>
+      </article>
+
+      <article id="disclaimer">
+        <h3>
+          Disclaimer
+        </h3>
+        <ul>
+          <li>
+            These may not be the greatest hits
+          </li>
+          <li>
+            Just some deep Eclipse implementation details that I think are cool, from my limited perspective
+          </li>
+          <li>
+            This presentation contains code
+          </li>
+        </ul>
+        <p>
+          <img style='height: 300px;' src='images/warning.png'>
+        </p>
+        <div class='source'>
+          Source: http://www.flickr.com/photos/cara_vsangel/
+        </div>
+      </article>
+
+      <article id="overview">
+        <h3>
+          What we're going to look at
+        </h3>
+        <ul>
+          <li>
+            Workspace tree representation
+          </li>
+          <li>
+            Incremental Java build
+          </li>
+          <li>
+            SWT source tree
+          </li>
+          <li>
+            RCP refactoring
+          </li>
+          <li>
+            Command dispatcher
+          </li>
+          <li>
+            p2 resolver
+          </li>
+        </ul>
+      </article>
+
+      <article id="tree-intro">
+        <q>
+          It's ElementTree my dear Watson, ElementTree
+        </q>
+        <div class='author'>
+          ElementTree.java, line 75
+        </div>
+      </article>
+
+      <article id="tree-motivation">
+        <h3>
+          ElementTree Motivation
+        </h3>
+        <ul>
+          <li>
+            Typical edit/compile/deploy cycle for a developer focuses on a small segment of a potentially very large code base
+          </li>
+          <li>
+            Want to aggressively optimize for this common cycle: make performance cost proportional to the change, rather than to the size of the workspace
+          </li>
+          <li>
+            Create and manipulate “units of change” that are passed around to interested parties
+          </li>
+        </ul>
+      </article>
+
+      <article id="builder-intro" class='smaller'>
+        <q>
+          Conducts a trial on a single compilation unit. Returns true if the unit
+          is guilty. The sentence is compilation without possibility of parole.
+        </q>
+        <div class='author'>
+          IncrementalImageBuilder.java v_146, line 1570
+        </div>
+      </article>
+
+      <article id="swt-intro">
+        <q>
+          The fix is to avoid the workaround.
+        </q>
+        <div class='author'>
+          Control.java (Motif), 4076
+        </div>
+      </article>
+
+      <article id="swt-motivation">
+        <h3>
+          Platform fidelity vs portability
+        </h3>
+        <ul>
+          <li>
+            Java emphasises portability of application code.
+          </li>
+          <li>
+            Technique 1: lowest common denominator in native code, 
+            Or, native implementation is avoided and platform fidelity is lost.
+          </li>
+          <li>
+            Different native implementations used to fulfill common Java API contract
+          </li>
+        </ul>
+      </article>
+
+      <article id="rcp-intro">
+        <q>
+          Performs arbitrary actions when the event loop crashes.
+        </q>
+        <div class='author'>
+          WorkbenchAdvisor.java, line 297
+        </div>
+      </article>
+
+      <article id="command-intro">
+        <q>
+          Okay. Have a seat. Relax a while. This is going to be a bumpy ride.
+        </q>
+        <div class='author'>
+          WidgetMethodHandler.java, line 81
+        </div>
+      </article>
+
+
+
+    </section>
+
+  </body>
+</html>
