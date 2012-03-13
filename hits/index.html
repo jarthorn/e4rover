@@ -103,6 +103,9 @@
       </article>
 
       <article id="tree-intro">
+        <h3>
+          Workspace tree representation
+        </h3>
         <q>
           It's ElementTree my dear Watson, ElementTree
         </q>
@@ -113,7 +116,7 @@
 
       <article id="tree-motivation">
         <h3>
-          ElementTree Motivation
+          ElementTree motivation
         </h3>
         <ul>
           <li>
@@ -127,8 +130,75 @@
           </li>
         </ul>
       </article>
+      
+      <article id="tree-diag1">
+        <h3>
+          Data flow
+        </h3>
+        <p>
+          <img style='height: 520px;' src='images/tree.png'>
+        </p>
+      </article>
+
+      <article id="tree-motivation">
+        <h3>
+          Additional observations
+        </h3>
+        <ul>
+          <li>Clients want a delta of the workspace state between two moments in time</li>
+          <li>Different clients may want deltas with different start and/or end points</li>
+          <li>May need to keep track of hundreds of tree states at once</li>
+          <li>How to efficiently represent all these different deltas in memory?</li>
+          <li>How to compute these deltas without traversing entire workspaces?</li>
+        </ul>
+      </article>
+
+      <article id="tree-diag2">
+        <h3>
+          Representing two tree states
+        </h3>
+        <p>
+          <img style='height: 520px;' src='images/tree2.png'>
+        </p>
+      </article>
+
+      <article id="tree-diag3">
+        <h3>
+          Representing tree states as deltas
+        </h3>
+        <p>
+          <img style='height: 520px;' src='images/tree3.png'>
+        </p>
+      </article>
+
+      <article id="tree-motivation">
+        <h3>
+          More details
+        </h3>
+        <ul>
+          <li>Have only one complete tree, and represent all others as deltas</li>
+          <li>Only one delta is mutable - representing current operation</li>
+          <li>Immutability allows trees to share common parent and nodes to share children</li>
+          <li>Each tree seems complete when traversing using API, but internal structure quite different</li>
+          <li>Most common scenarios are nearly constant-time delta computation</li>
+        </ul>
+      </article>
+      <article>
+        <h3>
+          Lessons learned
+        </h3>
+        <ul>
+          <li>Not all optimization is a speed-space tradeoff. Here we greatly reduced space required to represent states, and made delta calculation very fast</li>
+          <li>Textbook data structures work very well in most programming situations, but sometimes 
+          a very specialized structure is called for</li>
+          <li>Internal representation of a data structure can be radically different from external appearance</li>
+        </ul>
+      </article>
 
       <article id="builder-intro" class='smaller'>
+        <h3>
+          Incremental Java build
+        </h3>
         <q>
           Conducts a trial on a single compilation unit. Returns true if the unit
           is guilty. The sentence is compilation without possibility of parole.
