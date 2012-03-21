@@ -19,6 +19,7 @@
         <ul>
           <li>Registers a command that operates on the contents or selection in an editor</li>
           <li>Declares a single function: run(selectedText, text, selection)</li>
+          <li>Returns a string to replace current selection, or an object describing new editor contents and selection</li>
         </ul>
         <pre>
 provider.registerServiceProvider("orion.edit.command", {
@@ -26,9 +27,7 @@ provider.registerServiceProvider("orion.edit.command", {
      return text.toUpperCase();
    }
  }, {
-   name : "UPPERCASE",
-   img : "/images/gear.gif",
-   key : [ "u", true ]
+   name : "UPPERCASE", img : "/images/gear.gif", key : [ "u", true ]
 });
  </pre>
       </article>
