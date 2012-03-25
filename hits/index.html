@@ -139,7 +139,7 @@
         </p>
       </article>
 
-      <article id="tree-motivation">
+      <article id="tree-observations">
         <h3>
           Additional observations
         </h3>
@@ -209,6 +209,65 @@
         </div>
       </article>
 
+      <article id="builder-assumptions">
+        <h3>
+          Starting assumptions
+        </h3>
+        <ul>
+          <li>Compilation is expensive</li>
+          <li>Compiling a single file can create a ripple effect where many more files need compiling</li>
+        </ul>
+        (picture of ripples)
+      </article>
+
+      <article id="builder-1-0">
+        <h3>
+          Eclipse 1.0 Java builder
+        </h3>
+        <ul>
+          <li>Used a trial metaphor</li>
+          <li>When a file was compiled it produced evidence (e.g., class B is a subclass of A)</li>
+          <li>When A is changed, all files that refer to it are put on trial (e.g., method foo() removed from A)</li>
+          <li>All the corner cases are considered: does B refer to foo(), does it also declare foo() and invoke super?</li>
+          <li>Compile guilty files; repeat</li>
+        </ul>
+      </article>
+
+      <article id="builder-revisit">
+        <h3>
+          Revisiting assumptions
+        </h3>
+        <ul>
+          <li>Meanwhile JDT compiler was rewritten to be blazingly fast</li>
+          <li>You only need to recompile dependents when there are structural changes</li>
+          <li>Structural changes have little or no ripple effect</li>
+          <li>Keeping all the evidence around is expensive and slows down compilation </li>
+        </ul>
+      </article>
+  
+      <article id="builder-2-0">
+        <h3>
+          Builder 2.0
+        </h3>
+        <ul>
+          <li>When a file is compiled, check for structural changes by comparing signatures with previous .class file</li>
+          <li>If no structural changes, we are done</li>
+          <li>If there are structural changes, recompile all dependents</li>
+          <li>Faster on average and vastly more memory efficient than Eclipse 1.0 builder</li>
+        </ul>
+      </article>
+
+      <article id="builder-lessons">
+        <h3>
+          Lessons learned
+        </h3>
+        <ul>
+          <li>Sometimes you need to revisit your starting assumptions</li>
+          <li>Sometimes the optimal solution is not the best!</li>
+          <li>A simpler solution is often easier to maintain (unnecessary compilation no longer a bug)</li>
+        </ul>
+      </article>
+
       <!-- ************************************************************************ -->
 
       <article id="rcp-intro">
@@ -218,6 +277,224 @@
         <div class='author'>
           WorkbenchAdvisor.java, line 297
         </div>
+      </article>
+
+      <article id="rcp-background">
+        <h3>
+          RCP history
+        </h3>
+        <ul>
+          <li>As an <b>integration</b> platform, Eclipse focus was on seamless integration</li>
+          <li>Plugins by design had little or no control over general appearance</li>
+          <li>Plugins could only add; not remove</li>
+          <li>But some people wanted to be able to build applications that looked very different</li>
+          <li>Wanted to remove some of the built in functionality</li>
+        </ul>
+      </article>
+
+      <article id="rcp-refactoring">
+        <h3>
+          RCP refactoring
+        </h3>
+        <ul>
+          <li>Mechanical part was scrubbing "tool" artifacts from API</li>
+          <li>Harder part: decoupling workbench from the application so other applications could use it</li>
+          <li>Required inversion of control - separating policy from mechanism</li>
+          <li>IDE-specific behavior and functionality separated from the workbench</li>
+          <li>Can't just create preferences - must be under application control</li>
+        </ul>
+      </article>
+
+      <article id="rcp-advisor">
+        <h3>Policy vs mechanism</h3>
+        <table>
+          <tr>
+            <th>
+              Mechanism
+            </th>
+            <th>
+              Policy
+            </th>
+          </tr>
+          <tr>
+            <td>
+              Error handling
+            </td>
+            <td>
+              Show error dialog, log, exit
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Menus
+            </td>
+            <td>
+              What menus appear, what do they contain
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Toolbars
+            </td>
+            <td>
+              Decide what commands appear in toolbar
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Default perspective
+            </td>
+            <td>
+              Select default perspective
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Startup
+            </td>
+            <td>
+              Restore settings, welcome screen, login
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Window trim
+            </td>
+            <td>
+              Progress, status line, title
+            </td>
+          </tr>
+        </table>
+      </article>
+
+      <article id="rcp-solution">
+        <h3>Workbench advisor</h3>
+        <ul>
+          <li>Application in charge of creating a workbench if desired: <code>PlatformUI.createAndRunWorkbench(Display, WorkbenchAdvisor)</code></li>
+          <li><code>WorkbenchAdvisor</code> is consulted on aspects of window appearance, and has
+            "hooks" that are run on startup, window open, shutdown, etc.</li>
+          <li>Advisor has complete control over default set of commands in menu and toolbars</li>
+          <li>Plugins can still contribute their own extra commands if the menu/toolbar exists</li>
+        </ul>
+      </article>
+
+      <article id="rcp-extensibility">
+        <h3>Many ways to offer extensibility</h3>
+        <table>
+          <tr>
+            <th>
+              Mechanism
+            </th>
+            <th>
+              Arity
+            </th>
+            <th>
+              User Control
+            </th>
+            <th>
+              App Control
+            </th>
+            <th>
+              Plugin Control
+            </th>
+          </tr>
+          <tr>
+            <td>
+              Extension points
+            </td>
+            <td>
+              Many
+            </td>
+            <td>
+              No
+            </td>
+            <td>
+              Transforms
+            </td>
+            <td>
+              Yes
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Services
+            </td>
+            <td>
+              Many
+            </td>
+            <td>
+              No
+            </td>
+            <td>
+              No
+            </td>
+            <td>
+              Yes
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Preferences
+            </td>
+            <td>
+              Many
+            </td>
+            <td>
+              Maybe
+            </td>
+            <td>
+              Yes
+            </td>
+            <td>
+              Yes
+            </td>
+          </tr>
+          <tr>
+            <td>
+              System prop
+            </td>
+            <td>
+              One
+            </td>
+            <td>
+              Yes
+            </td>
+            <td>
+              Yes
+            </td>
+            <td>
+              Yes
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Advisor
+            </td>
+            <td>
+              One
+            </td>
+            <td>
+              No
+            </td>
+            <td>
+              Yes
+            </td>
+            <td>
+              No
+            </td>
+          </tr>
+        </table>
+        
+      </article>
+      
+      <article id="rcp-lessons">
+        <h3>Lessons learned</h3>
+        <ul>
+          <li>The "policy" vs "mechanism" distinction burned into committer minds</li>
+          <li>When designing functionality, always have to ask if someone else might want to do it differently</li>
+          <li>Is it something any plugin should be able to control? Or only application? Only user?
+          <li>There are many ways to offer extensibility with various tradeoffs</li>
+        </ul>
       </article>
 
       <!-- ************************************************************************ -->
@@ -231,9 +508,63 @@
         </div>
       </article>
 
+      <article id="commands-history">
+        <h3>
+          Key bindings history
+        </h3>
+        <ul>
+          <li>Eclipse 1.0: hard-coded, unmodifiable</li>
+          <li>Eclipse 2.0: plugins can contribute bindings, only editor bindings can be customized</li>
+          <li>Eclipse 2.1: user contributed key bindings, concept of scopes but limited (global vs editor)</li>
+          <li>Eclipse 3.0: key bindings in dialogs, expanded concept of scopes</li>
+          <li>Eclipse 3.1: Introduced command framework.. views can override global commands</li>
+        </ul>
+      </article>
+
+      <article id="commands-challenges">
+        <h3>
+          Challenges
+        </h3>
+        <ul>
+          <li>Every time user hits keyboard need to calculate what to do</li>
+          <li>Switching to another view, editor, or dialog changes behaviour of key bindings</li>
+          <li>Multiple commands can have same key binding - Ctrl+B could be Build or Bold</li>
+          <li>When action has multiple bindings need to decide what to show in menu</li>
+          <li>Even within a part the same key binding might have different effect - F2 in Package Explorer</li>
+          <li>Incrementally bolting on functionality to original design starting to become untenable</li>
+        </ul>
+      </article>
+
+      <article id="commands-framework">
+        <h3>
+          Command framework
+        </h3>
+        <ul>
+          <li>Introduced separation between command and handler</li>
+          <li>Key bindings are bound to commands, command get bound to handlers</li>
+          <li>Relationship between binding and command is fairly stable</li>
+          <li>Keybinding information is almost always served from cache in regular usage</li>
+          <li>Relationship between command and handler still needs updating on each part activation</li>
+          <li>Only need to process commands that have a handler specific to that part</li>
+        </ul>
+      </article>
+
+      <article id="commands-lessons">
+        <h3>
+          Lessons learned
+        </h3>
+        <ul>
+          <li>Incrementally adding functionality over time can reach a breaking point where 
+            you need a fundamental rethink</li>
+          <li>Creating a pure "model" layer between user inputs and resulting actions was very powerful</li>
+          <li>Different parts of the problem could be isolated and optimized</li>
+        </ul>
+      </article>
+
       <!-- ************************************************************************ -->
 
       <article id="p2-intro">
+        <h3>p2 resolver</h3>
         <q>
           The fix is to avoid the workaround.
         </q>
@@ -243,11 +574,13 @@
       </article>
       
       <article id="p2-background">
-        <h3>Background</h3>
+        <h3>p2 Background</h3>
         <ul>
           <li>Update manager only resolved dependencies at the feature level</li>
           <li>Features that were already installed would never be reconsidered when installing something else</li>
+          <li>This could lead to some feature you didn't really care about blocking install of something you really wanted</li>
           <li>Resolving dependencies could sometimes be slow but was generally usable</li>
+          <li>Redundant expression of dependencies at feature and plugin level was a source of bugs</li>
         </ul>
       </article>
 
@@ -255,20 +588,45 @@
         <h3>Observations</h3>
         <ul>
           <li>Observation: some installed things are "roots" that the user chose to install, 
-            other things are installed only to satisfy dependencies	</li>
+other things are installed only to satisfy dependencies	</li>
           <li>In p2 we wanted to ensure all dependencies were satisfied - feature, bundle, and package level</li>
           <li>This is an NP hard constraint satisfaction problem, and our hand-crafted resolver wasn't good enough</li>
         </ul>
       </article>
 
       <article>
+        <h3>Boolean satisfaction problem</h3>
         <ul>
-          <li>Brief overview of boolean satisfaction problem</li>
-          <li>Mapping install dependency satisfaction to boolean constraints (Projector)</li>
-          <li>SAT4J - SAT competitions</li>
+          <li>A series of boolean expressions (made up of AND, OR, and NOT)</li>
+          <li>Is there a set of variable assignments that will satisfy all expressions</li>
+          <li>Or, what set of values satisfies the most expressions (MAX-SAT)</li>
+        </ul>
+        <pre>
+1: x &amp; !y
+2: x | y
+Solution: x=true, y=false
+</pre>
+      </article>
+
+      <article>
+        <h3>Mapping install to SAT (Projector)</h3>
+        <pre>
+a := Plugin A 1.0 - requires B [1.0,2.0)
+b := Plugin A 2.0
+c := Plugin B 1.0
+d := Plugin B 1.1
+
+(a &amp; c) | (a &amp; d)
+(a &amp; !b) | (!a &amp; b)
+(c &amp; !d) | (!c &amp; d)
+
+Solution: a=false, b=true, c=false, d=true
+</pre>
+        <ul>
+          <li>Also assign weights to expressions to cause higher plugin version to be favoured</li>
         </ul>
       </article>
-      
+
       <article id="p2-lessons-learned">
         <h3>Lessons learned</h3>
         <ul>
