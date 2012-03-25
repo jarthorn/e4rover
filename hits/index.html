@@ -59,10 +59,10 @@
         </h3>
         <ul>
           <li>
-            These may not be the greatest hits
+            This is a semi-random, subjective list
           </li>
           <li>
-            Just some deep Eclipse implementation details that I think are cool, from my limited perspective
+            Just some deep Eclipse implementation details that I think are cool, from my perspective
           </li>
           <li>
             This presentation contains code
@@ -88,19 +88,18 @@
             Incremental Java build
           </li>
           <li>
-            SWT source tree
-          </li>
-          <li>
             RCP refactoring
           </li>
           <li>
-            Command dispatcher
+            Command framework
           </li>
           <li>
             p2 resolver
           </li>
         </ul>
       </article>
+
+      <!-- ************************************************************************ -->
 
       <article id="tree-intro">
         <h3>
@@ -195,6 +194,8 @@
         </ul>
       </article>
 
+      <!-- ************************************************************************ -->
+
       <article id="builder-intro" class='smaller'>
         <h3>
           Incremental Java build
@@ -208,32 +209,7 @@
         </div>
       </article>
 
-      <article id="swt-intro">
-        <q>
-          The fix is to avoid the workaround.
-        </q>
-        <div class='author'>
-          Control.java (Motif), 4076
-        </div>
-      </article>
-
-      <article id="swt-motivation">
-        <h3>
-          Platform fidelity vs portability
-        </h3>
-        <ul>
-          <li>
-            Java emphasises portability of application code.
-          </li>
-          <li>
-            Technique 1: lowest common denominator in native code, 
-            Or, native implementation is avoided and platform fidelity is lost.
-          </li>
-          <li>
-            Different native implementations used to fulfill common Java API contract
-          </li>
-        </ul>
-      </article>
+      <!-- ************************************************************************ -->
 
       <article id="rcp-intro">
         <q>
@@ -244,6 +220,8 @@
         </div>
       </article>
 
+      <!-- ************************************************************************ -->
+
       <article id="command-intro">
         <q>
           Okay. Have a seat. Relax a while. This is going to be a bumpy ride.
@@ -253,7 +231,65 @@
         </div>
       </article>
 
+      <!-- ************************************************************************ -->
 
+      <article id="p2-intro">
+        <q>
+          The fix is to avoid the workaround.
+        </q>
+        <div class='author'>
+          Control.java (Motif), 4076
+        </div>
+      </article>
+      
+      <article id="p2-background">
+        <h3>Background</h3>
+        <ul>
+          <li>Update manager only resolved dependencies at the feature level</li>
+          <li>Features that were already installed would never be reconsidered when installing something else</li>
+          <li>Resolving dependencies could sometimes be slow but was generally usable</li>
+        </ul>
+      </article>
+
+      <article id="p2-observations">
+        <h3>Observations</h3>
+        <ul>
+          <li>Observation: some installed things are "roots" that the user chose to install, 
+            other things are installed only to satisfy dependencies	</li>
+          <li>In p2 we wanted to ensure all dependencies were satisfied - feature, bundle, and package level</li>
+          <li>This is an NP hard constraint satisfaction problem, and our hand-crafted resolver wasn't good enough</li>
+        </ul>
+      </article>
+
+      <article>
+        <ul>
+          <li>Brief overview of boolean satisfaction problem</li>
+          <li>Mapping install dependency satisfaction to boolean constraints (Projector)</li>
+          <li>SAT4J - SAT competitions</li>
+        </ul>
+      </article>
+      
+      <article id="p2-lessons-learned">
+        <h3>Lessons learned</h3>
+        <ul>
+          <li>Need to recognize when you have an NP hard problem</li>
+          <li>These kinds of problems are big in the academic world and there is a lot of existing work available</li>
+          <li>There are probably others who have solved this problem more efficiently</li>
+          <li>Those things you learned in school about algorithm complexity and isomorphism sometimes come in handy!</li>
+        </ul>
+      </article>
+
+      <article id="the-end">
+        <h3>
+          Thank you!
+        </h3>
+        
+        <ul>
+          <li>
+            <a href='http://www.eclipse.org'>eclipse.org</a>
+          </li>
+        </ul>
+      </article>
 
     </section>
 
