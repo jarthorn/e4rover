@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		
-		<title>Orion Tutorial: Page Services</title>
+		<title>Orion Tutorial: Navigator Services</title>
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -28,53 +28,74 @@
 		
 		<div class="reveal">
 
-			<!-- Used to fade in a background when a specific slide state is reached -->
-			<div class="state-background"></div>
-			
-			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
-      <section>
+		<!-- Used to fade in a background when a specific slide state is reached -->
+		<div class="state-background"></div>
+		
+		<!-- Any section element inside of this container is displayed as a slide -->
+		<div class="slides">
+		<section>
         <h3>
-          orion.page.link
+          orion.navigate.command
         </h3>
         <ul>
-          <li>Adds links to the main header of Orion pages</li>
-          <li>Service provides link name and target</li>
+          <li>Adds a command to the menu next to a file in the navigator page</li>
+          <li>Declares a single method: <tt>run(selection)</tt>, returning an URL string</li>
+          <li>Argument is either a file object, or array of files</li>
         </ul>
 		<pre><code contenteditable>
- var impl = {};//no service methods required
-  provider.registerServiceProvider("orion.page.link", impl, {
-     name: "Navigator",
-     id: "orion.navigator",
-     uriTemplate: "{OrionHome}/navigate/table.html#"
+provider.registerServiceProvider("orion.navigate.command", {
+  run : function(item) {
+    return "http://google.com/#q=" + item.Name;
+  }}, {
+    image: "http://google.com/favicon.ico",
+    name: "Google Search", id: "my.command",
+    forceSingleItem: true, href: true
   });
 		</code></pre>
-      </section>
+		</section>
 
-      <section>
+		<section>
         <h3>
-          orion.page.link.related
+          orion.navigate.content
         </h3>
         <ul>
-          <li>Allows plugins to add links to <b>Related</b> menu</li>
-          <li>Specify when applicable using properties / content types</li>
+          <li>Contribute buttons to create top level content</li>
+          <li>Supplies folder name and command to generate content</li>
         </ul>
 		<pre><code contenteditable>
-provider.registerServiceProvider("orion.page.link.related", null, {
-   id: "orion.git.gotoGithub",
-   name: "Show in GitHub",
-   tooltip: "Show this repository at GitHub",
-   validationProperties: [{
-      source: "GitUrl", 
-      match: "github\.com.*\.git", 
-      variableName: "GitHubLocation", 
-      variableMatchPosition: "only",
-      replacements: ":", replacement: "/"}, {pattern: ".git$", replacement: ""}
-   }],
-   uriTemplate: "https://{GitHubLocation}"
-});		</code></pre>
-      </section>
-			</div>
+var temp = document.createElement('a');
+temp.href = "testContent.zip";
+provider.registerService("orion.navigate.content", null, {
+  id: "orion.content.test",
+  name: "Another Exemplary Sample Site",
+  description: "Generate sample site.",
+  folder: "Test New Content",
+  command: "orion.importZipURL",
+  parameters: [{name: "url", type: "url", label: "Extracted from:", defaultValue: temp.href},
+    {name: "unzip", type: "boolean", label: "Unzip:", defaultValue: true}]
+});
+		</code></pre>
+		</section>
+
+		<section>
+        <h3>
+          orion.navigate.openWith
+        </h3>
+        <ul>
+          <li>Binds an editor to a content type</li>
+          <li>Editor will appear in <b>Open With</b> menu for matching files</li>
+        </ul>
+		<pre><code contenteditable>
+var provider = new orion.PluginProvider();
+provider.registerServiceProvider("orion.navigate.openWith", {},
+  { id: "orion.editor",
+    contentType: "text/markdown"
+  });
+provider.connect();		</code></pre>
+		</section>
+
+
+		</div>
 
 			<!-- The navigational controls UI -->
 			<aside class="controls">

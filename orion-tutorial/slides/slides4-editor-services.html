@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		
-		<title>Extending Orion</title>
+		<title>Orion Tutorial: Editor Services</title>
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -33,6 +33,25 @@
 			
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
+			<section>
+		        <h3>
+		          orion.edit.editor
+		        </h3>
+		        <ul>
+		          <li>Registers a completely new editor</li>
+		          <li>Tells Orion the URL to open for a particular editor type</li>
+		          <li>Used with contenttype and openWith services</li>
+		        </ul>
+				<pre><code contenteditable>
+var provider = new orion.PluginProvider();
+ provider.registerServiceProvider("orion.edit.editor", {}, 
+   { id: "example.mygreateditor",
+     name: "My Great Editor",
+     uriTemplate: "http://mysite.com/myGreatEditor.php?fileToEdit={Location}"
+   });
+				</code></pre>
+			</section>
+
 			<section>
 		        <h3>
 		          orion.edit.command

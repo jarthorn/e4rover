@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		
-		<title>Orion Tutorial: Page Services</title>
+		<title>Orion Tutorial: Core Services</title>
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -35,44 +35,23 @@
 			<div class="slides">
       <section>
         <h3>
-          orion.page.link
+          orion.core.contenttype
         </h3>
         <ul>
-          <li>Adds links to the main header of Orion pages</li>
-          <li>Service provides link name and target</li>
+          <li>Tells Orion about a new file type</li>
+          <li>Optionally associates information such as display name and image, filenames, and file extensions.</li>
+          <li>Does nothing interesting, but used by other services</li>
         </ul>
 		<pre><code contenteditable>
- var impl = {};//no service methods required
-  provider.registerServiceProvider("orion.page.link", impl, {
-     name: "Navigator",
-     id: "orion.navigator",
-     uriTemplate: "{OrionHome}/navigate/table.html#"
-  });
+provider.registerServiceProvider("orion.core.contenttype", {}, {
+  contentTypes:
+    [{ id: "text/x-web-markdown",
+       name: "Markdown",
+       extension: ["md", "markdown", "mdown","mkd", "mkdn"],
+       image: "http://szbra.github.com/example2/bin/md.gif"
+    }]
+});
 		</code></pre>
-      </section>
-
-      <section>
-        <h3>
-          orion.page.link.related
-        </h3>
-        <ul>
-          <li>Allows plugins to add links to <b>Related</b> menu</li>
-          <li>Specify when applicable using properties / content types</li>
-        </ul>
-		<pre><code contenteditable>
-provider.registerServiceProvider("orion.page.link.related", null, {
-   id: "orion.git.gotoGithub",
-   name: "Show in GitHub",
-   tooltip: "Show this repository at GitHub",
-   validationProperties: [{
-      source: "GitUrl", 
-      match: "github\.com.*\.git", 
-      variableName: "GitHubLocation", 
-      variableMatchPosition: "only",
-      replacements: ":", replacement: "/"}, {pattern: ".git$", replacement: ""}
-   }],
-   uriTemplate: "https://{GitHubLocation}"
-});		</code></pre>
       </section>
 			</div>
 
