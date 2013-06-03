@@ -292,17 +292,18 @@ function Deferred() {
 					</ul>
 				</section>
 				<section>
-				<h3>Making the server real</h3>
+					<h3>Making the server real</h3>
 					<ul>
 					<li>Analysis of Orion as a <a href="http://www.12factor.net/">12 Factor</a> web application</li>
-					<li>Backing services: Used Equinox preferences as metadata store</li>
+					<li>Backing services: Used OSGi prefs for metadata</li>
 					<li>Not scalable, not concurrent, not pluggable</li>
-					<li>New metadata API will allow swapping metadata store as admin task</li>
+					<li>Hard to administer, not configurable</li>
+					<li>New metadata API allows swapping metadata store in server config</li>
 					<li>Current state: API created and used, but still backed by preferences</li>
 					</ul>
 				</section>
 				<section>
-				<h3>Server integration</h3>
+					<h3>Server integration</h3>
 					<ul>
 					<li>Was: Integration via HTTP, file system, or client</li>
 					<li>Should be: Horizontal scaling based on workload</li>
@@ -313,6 +314,48 @@ function Deferred() {
 					<br>
 					<small>Credit: 12factor.net</small>
 					</p>
+				</section>
+
+				<section>
+					<h3>Client integration</h3>
+					<ul>
+					<li>Was using a single specific JS framework</li>
+					<li>Used to paper over differences between browsers</li>
+					<li>Hard to integrate with clients using other frameworks</li>
+					<li>Slower page load times</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Client integration: going native</h3>
+					<ul>
+					<li>Modern browsers are standards-based and increasingly consistent</li>
+					<li>Dropped Dojo in favour of browser mechanisms</li>
+					<li>Easier third party adoption</li>
+					<li>Page load times went from 750ms to 250ms</li>
+					<li>90KB of JavaScript loaded instead of 600KB</li>
+					</ul>
+				</section>
+				
+				<section>
+					<h3>Client integration: branding</h3>
+					<a class="image"><img src="images/branding-orion.png" ></a>
+					<br>
+					<a class="image"><img src="images/branding-jazz.png" ></a>
+				</section>
+
+				<section>
+					<h3>Enterprise delivery</h3>
+					<ul>
+					<li>Accessibility: keyboard, screen readers, ARIA roles</li>
+					<li>Security: SSO, LDAP, vulnerability testing</li>
+					<li>Globalization: translation testing, variable line height</li>
+					</ul>
+					<a class="image"><img src="images/orionglobal.png" ></a>
+				</section>
+				
+				<section>
+				<h3>DevOps</h3>
 				</section>
 
 <!--					<li>Orion LDAP authentication support</li> -->
