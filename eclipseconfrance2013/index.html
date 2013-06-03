@@ -193,7 +193,7 @@ provider.registerServiceProvider(["orion.edit.command", "orion.cm.managedservice
 				</section>
 								
 				<section>
-					<h3>Install your own Orion Server</h3>
+					<h3>Install your own Orion server</h3>
 					<ul>
 						<li>Go to the <a href="http://download.eclipse.org/orion/">Orion Downloads</a> page</li>
 						<li>Get the right server and unzip it</li>
@@ -228,7 +228,7 @@ provider.registerServiceProvider(["orion.edit.command", "orion.cm.managedservice
 				</section>
 
 				<section>
-					<h4>Minified Client Side Editor - Just the editor</h4>
+					<h3>Minified editor</h3>
 					<pre class="editor" data-editor-lang="js" data-editor-theme="css/nimbus.css" style="height:400px;">
 function Deferred() {
 	var result, state, listeners = [],
@@ -276,16 +276,47 @@ function Deferred() {
 					<img src="images/ohlohorion.png" >
 				</a>
 				</section>
-				
+
 				<section>
-				<h3>What can we do this year?</h3>
-				<p>IBM Research and University Collaboration on <a href="http://domino.watson.ibm.com/library/CyberDig.nsf/1e4115aea78b6e7c85256b360066f0d4/e6a89d6e32bfa60385257b33006ab8f5!OpenDocument">Content Assist</a>, 
-				OSLC integations, Server Extensions for CloudFoundry VMC, We need more deployment plugins</p>
-				<p>Warsaw University project on a JSGit implementation for
-				Node.js, Accessibility, Translations and NLS, File System plugins (Chrome, HTML5, WebDav, S3, etc.)</p>
-				<p>Embedded development using Orion on Node (Lua, Node, Scripting) - the Orion Shell is extensible</p>
+				<h2>Adoption</h2>
+					<p>That sounds great! Now here's what we need...</p>
+					<ul class="fragment">
+						<li>One million accounts</li>
+						<li>10,000 simultaneous connections</li>
+						<li>99.9% uptime</li>
+						<li>Single sign-on, LDAP integration, WAR file</li>
+						<li>Integrate with different client side frameworks</li>
+						<li>Skinning/branding</li>
+						<li>Globalized, accessible, secure</li>
+						<li>Can we have that in three months?</li>
+					</ul>
+				</section>
+				<section>
+				<h3>Making the server real</h3>
+					<ul>
+					<li>Analysis of Orion as a <a href="http://www.12factor.net/">12 Factor</a> web application</li>
+					<li>Backing services: Used Equinox preferences as metadata store</li>
+					<li>Not scalable, not concurrent, not pluggable</li>
+					<li>New metadata API will allow swapping metadata store as admin task</li>
+					<li>Current state: API created and used, but still backed by preferences</li>
+					</ul>
+				</section>
+				<section>
+				<h3>Server integration</h3>
+					<ul>
+					<li>Was: Integration via HTTP, file system, or client</li>
+					<li>Should be: Horizontal scaling based on workload</li>
+					<li>Deploying Orion WAR file into bigger app</li>
+					<li>Need to carve out search and Git operations</li>
+					</ul>
+					<p><a class="image"><img src="images/process-types.png"></a>
+					<br>
+					<small>Credit: 12factor.net</small>
+					</p>
 				</section>
 
+<!--					<li>Orion LDAP authentication support</li> -->
+				
 				<section>
 					<h2>Find out more</h2>
 					<p>Read our blog at <a href="http://planetorion.org">Planet Orion</a></p>
